@@ -1,0 +1,136 @@
+---
+alwaysApply: true
+---
+
+# Context7 Integration
+
+## What is Context7?
+Context7 is an MCP server that fetches up-to-date, version-specific documentation and code examples directly from official sources. It eliminates outdated code suggestions, hallucinated APIs, and generic examples by providing real-time, accurate documentation.
+
+## Purpose in This Project
+Ensure all generated code uses current, accurate Python standard library APIs and best practices for Python 3.8+.
+
+## How It Works
+Include "use context7" in prompts when current documentation is needed. The server automatically fetches relevant docs and integrates them into responses.
+
+## When to Use Context7
+
+### Always Use For:
+- **Python standard library questions**: Ensure current API usage
+- **CLI framework specifics**: Get accurate Click/Typer examples
+- **File system operations**: Verify pathlib, os, shutil methods
+- **Archive creation**: Check zipfile current capabilities
+- **Testing frameworks**: Get pytest latest features
+
+### Example Usage:
+```
+Implement the scanner.py module using pathlib. use context7
+
+Create CLI commands with Click for scanning directories. use context7
+
+Show how to create zip archives with proper error handling. use context7
+
+Write pytest fixtures for temporary file testing. use context7
+```
+
+## Best Practices
+
+### DO:
+- Include "use context7" when implementing new modules
+- Reference it for standard library API verification
+- Use it to check current best practices
+- Verify framework-specific patterns
+
+### DON'T:
+- Use it for general programming questions
+- Rely on it for architectural decisions (use our .mdc files)
+- Let it override our documented safety requirements
+- Add external libraries it suggests without scope evaluation
+
+## Integration with Our Rules
+
+### Priority Order:
+1. **Safety requirements** (safety-requirements.mdc) → Always first
+2. **Project scope** (scope-control.mdc) → Filter suggestions
+3. **Context7 docs** → Implementation details
+4. **Code standards** (code-standards.mdc) → Final formatting
+
+### Example Flow:
+```
+Need to implement file deletion →
+1. Check safety-requirements.mdc (must have confirmation)
+2. Ask Context7 for current os.remove/pathlib.unlink usage
+3. Implement with our safety wrappers
+4. Follow code-standards.mdc formatting
+```
+
+## Handling Context7 Suggestions
+
+### Accept When:
+- Standard library API updates we weren't aware of
+- Better error handling patterns
+- More efficient pathlib methods
+- Current pytest best practices
+
+### Reject When:
+- Suggests external dependencies (we prefer standard library)
+- Recommends complex abstractions (we value simplicity)
+- Proposes features outside our scope
+- Bypasses our safety requirements
+
+## Common Use Cases
+
+### Module Implementation
+```
+I need to implement scanner.py that walks directories and 
+collects file metadata. Show current best practices using 
+pathlib and os.stat. use context7
+```
+
+### Error Handling
+```
+What's the current recommended way to handle PermissionError 
+when accessing files in Python 3.8+? use context7
+```
+
+### Testing
+```
+Show how to create temporary directories with pytest fixtures 
+for testing file operations. use context7
+```
+
+### CLI Framework
+```
+How do I create a Click command that accepts a Path argument 
+and validates it exists? use context7
+```
+
+## Limitations
+
+### Context7 Provides:
+- ✅ Current API documentation
+- ✅ Version-specific examples
+- ✅ Official library usage patterns
+
+### Context7 Does NOT Provide:
+- ❌ Project-specific architectural guidance (use our .mdc files)
+- ❌ Safety requirement enforcement (we handle this)
+- ❌ Scope decisions (refer to scope-control.mdc)
+- ❌ Code review for our specific patterns
+
+## Quality Control
+
+Before accepting Context7 suggestions:
+1. Does it use standard library? ✅
+2. Is it simple enough? (code-standards.mdc)
+3. Does it fit our architecture? (module-guidelines.mdc)
+4. Is it safe? (safety-requirements.mdc)
+5. Is it in scope? (scope-control.mdc)
+
+All five must be YES.
+
+## Notes
+- Context7 keeps us current with Python ecosystem
+- It prevents using deprecated APIs
+- It helps avoid outdated patterns from AI training data
+- But our project rules always take precedence over any suggestion
