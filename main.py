@@ -15,6 +15,11 @@ def scan(
     root: Path = typer.Argument(Path("."), help="Root directory to scan"),
     min_size: Optional[int] = typer.Option(None, "--min-size", help="Minimum file size in bytes"),
     unused_days: Optional[int] = typer.Option(None, "--unused-days", help="Minimum age in days"),
+    file_type: list[str] = typer.Option(
+        [],
+        "--file-type",
+        help="Only include files with these extensions (e.g. .log, .tmp)",
+    ),
     recursive: bool = typer.Option(True, help="Recurse into subdirectories"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show actions without executing"),
 ) -> None:
@@ -22,7 +27,12 @@ def scan(
     render_scan_header(str(root), min_size, unused_days, dry_run)
     paths = list(scan_directory(root, recursive=recursive))
     infos = to_file_info(paths)
-    filtered = filter_files(infos, min_size=min_size, min_age_days=unused_days)
+    filtered = filter_files(
+        infos,
+        min_size=min_size,
+        min_age_days=unused_days,
+        file_types=file_type or None,
+    )
     run_interactive_review(filtered, dry_run=dry_run)
     render_scan_summary(len(filtered))
 

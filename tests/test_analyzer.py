@@ -33,3 +33,22 @@ def test_filter_files_by_min_age_days() -> None:
     assert "new.txt" not in paths
 
 
+def test_filter_files_by_file_type() -> None:
+    now_ts = time()
+    txt_file = FileInfo(path=Path("note.txt"), size=100, mtime=now_ts)
+    log_file = FileInfo(path=Path("app.log"), size=100, mtime=now_ts)
+    tmp_file = FileInfo(path=Path("cache.TMP"), size=100, mtime=now_ts)
+
+    filtered = filter_files(
+        [txt_file, log_file, tmp_file],
+        min_size=None,
+        min_age_days=None,
+        now_ts=now_ts,
+        file_types=[".log", "tmp"],
+    )
+
+    paths = {f.path.name for f in filtered}
+    assert "app.log" in paths
+    assert "cache.TMP" in paths
+    assert "note.txt" not in paths
+

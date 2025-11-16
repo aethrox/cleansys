@@ -33,12 +33,16 @@ def filter_files(
     min_size: int | None = None,
     min_age_days: int | None = None,
     now_ts: float | None = None,
+    file_types: list[str] | None = None,
 ) -> List[FileInfo]:
-    """Filter files by optional size and age criteria."""
+    """Filter files by optional size, age, and type criteria."""
     if now_ts is None:
         from time import time
 
         now_ts = time()
+    normalized_types = None
+    if file_types:
+        normalized_types = {t.lower() if t.startswith(".") else f".{t.lower()}" for t in file_types}
     result: List[FileInfo] = []
     for info in files:
         if min_size is not None and info.size < min_size:
@@ -46,6 +50,9 @@ def filter_files(
         if min_age_days is not None:
             age_seconds = now_ts - info.mtime
             if age_seconds < min_age_days * 86400:
+                continue
+        if normalized_types is not None:
+            if info.path.suffix.lower() not in normalized_types:
                 continue
         result.append(info)
     return result
