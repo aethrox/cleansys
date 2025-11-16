@@ -28,11 +28,11 @@ jobs:
       - name: Generate VHS tape from README
         run: python scripts/generate_demo_tape.py
 
-      - name: "🛠️ Install All VHS Dependencies (ffmpeg and ttyd)"
+      - name: "🛠️ Install All Dependencies (Go, ffmpeg, ttyd)"
         run: |
-          # Update packages and install ffmpeg (required for GIF/video output)
+          # Install Go and ffmpeg (Go is needed to build vhs)
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y golang-go ffmpeg
 
           # Install ttyd (required for terminal simulation) from GitHub Releases
           TTYD_VERSION="1.7.4"
@@ -44,13 +44,16 @@ jobs:
           sudo mv ttyd /usr/local/bin/
           echo "::endgroup::"
 
-      - name: Run VHS
-        uses: charmbracelet/vhs-action@v2
-        with:
-          path: "demo.tape"
-          version: "latest"
-          token: ${{ github.token }}
-          install-fonts: "false"
+      - name: "📼 Install VHS CLI"
+        run: |
+          # Install the vhs binary using Go
+          go install github.com/charmbracelet/vhs@latest
+          # Add the Go bin directory to the GitHub PATH
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+
+      - name: "🎞️ Generate GIF (Manual Execution)"
+        run: |
+          vhs demo.tape
 
       - name: Commit updated demo assets
         uses: stefanzweifel/git-auto-commit-action@v5
