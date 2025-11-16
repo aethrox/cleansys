@@ -39,6 +39,7 @@ jobs:
           path: "demo.tape"
           version: "latest"
           token: ${{ github.token }}
+          install-dependencies: "false"
           install-fonts: "false"
 
       - name: Commit updated demo assets
