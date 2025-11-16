@@ -93,3 +93,23 @@ Only if requested by multiple users AND maintains simplicity:
 - [ ] All destructive operations require confirmation
 - [ ] README examples are tested
 - [ ] Error messages are helpful, not technical
+
+## VHS-powered CLI demo (automation)
+
+- The CLI demo GIF in the main `README.md` (`cli-example.gif`) is generated from
+  a VHS tape, not recorded manually.
+- The tape file `demo.tape` is **generated**, not hand-edited:
+  - `scripts/generate_demo_tape.py` reads the Quick Start commands from the
+    README and applies styling and timing from `vhs_config.json`.
+  - The generator also creates a small throwaway filesystem (under `~/Downloads`,
+    `~/Desktop`, `~/Documents`) so the demo commands always have matching files.
+- The GitHub workflow `.github/workflows/vhs-update.yml`:
+  - Runs the generator to refresh `demo.tape`.
+  - Installs `go`, `ffmpeg`, and `ttyd`, then installs and runs the `vhs` CLI
+    directly against `demo.tape`.
+  - Commits updated `demo.tape` and `cli-example.gif` back to `main`.
+- To update the demo:
+  - Change the Quick Start examples in `README.md` and/or adjust
+    `vhs_config.json` (dimensions, theme, timings).
+  - Let CI regenerate the tape and GIF; avoid editing `demo.tape` or
+    `cli-example.gif` by hand.
