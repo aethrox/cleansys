@@ -15,14 +15,14 @@ cd cleansys
 pip install -r requirements.txt
 
 # Basic scan: files not accessed in 6+ months (by folder)
-python main.py scan ~/Downloads --unused-days 180
+python main.py ~/Downloads --unused-days 180
 
 # Find large files over 50MB (by folder)
 # NOTE: current implementation expects bytes, e.g. 50 * 1024 * 1024
-python main.py scan ~/Desktop --min-size 52428800
+python main.py ~/Desktop --min-size 52428800
 
 # Combine criteria
-python main.py scan ~/Documents --unused-days 365 --min-size 10485760
+python main.py ~/Documents --unused-days 365 --min-size 10485760
 ```
 
 What `scan` does today
