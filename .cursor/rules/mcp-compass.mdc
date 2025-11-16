@@ -1,0 +1,89 @@
+---
+alwaysApply: true
+---
+
+# MCP Compass Integration
+
+## What is mcp-compass?
+mcp-compass is a discovery and recommendation service that helps explore Model Context Protocol (MCP) servers through natural language queries, acting as a smart guide to find and understand available MCP services for specific tasks.
+
+## Purpose in This Project
+Use mcp-compass to discover and evaluate relevant MCP servers that could enhance cleansys functionality while maintaining our minimalist philosophy.
+
+## When to Use mcp-compass
+
+### Discovery Phase
+- **Before adding external integrations**: Search for existing MCP servers that provide needed functionality
+- **Evaluating alternatives**: Compare different MCP services for the same capability
+- **Understanding ecosystem**: Explore what's available without manual research
+
+### Evaluation Queries
+```
+"Find MCP servers for file system operations"
+"Search for servers that handle archive creation"
+"Find services for safe file deletion"
+```
+
+### Integration Consideration
+When mcp-compass suggests a server:
+1. **Check scope-control.mdc**: Does it fit our minimalist goals?
+2. **Verify simplicity**: Would it add complexity?
+3. **Assess dependencies**: Does it require external services?
+4. **Review safety**: Does it maintain our safety-first approach?
+
+## Usage Guidelines
+
+### DO Use For:
+- Discovering file system MCP servers
+- Finding backup/archive solutions
+- Researching safe deletion tools
+- Exploring metadata extraction services
+
+### DO NOT Use For:
+- Adding features outside project scope
+- Bypassing architectural decisions
+- Introducing complex dependencies
+- Justifying feature creep
+
+## Decision Framework
+
+When mcp-compass recommends a server, ask:
+1. Does it serve our core purpose (identify/remove clutter)?
+2. Can we implement it with standard library instead?
+3. Would it require network access? ❌ Reject
+4. Does it add persistent state? ❌ Reject
+5. Would it make the tool less predictable? ❌ Reject
+
+## Integration Rules
+
+### Before Adding Any MCP Server:
+- **Document justification**: Why standard library isn't sufficient
+- **Verify scope fit**: Reference scope-control.mdc
+- **Test in isolation**: Ensure it works as expected
+- **Maintain safety**: All safety-requirements.mdc rules still apply
+- **Keep it optional**: Core features must work without it
+
+## Examples of Acceptable Use
+
+```
+User: "Are there MCP servers for better archive compression?"
+Response: Search mcp-compass, then evaluate if:
+- It's worth the dependency
+- Compression is a core need
+- Standard library zipfile is insufficient
+```
+
+## Examples of Rejected Use
+
+```
+User: "Let's add cloud backup via MCP"
+Response: ❌ Outside scope - cleansys is local-only tool
+Even if mcp-compass finds perfect server, reject per scope-control.mdc
+```
+
+## Best Practices
+- Use mcp-compass for research, not automatic adoption
+- Every suggestion must pass through our decision framework
+- Prefer standard library over external MCP servers
+- Document why we chose or rejected suggestions
+- Keep project dependencies minimal

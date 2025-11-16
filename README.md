@@ -1,82 +1,83 @@
-cleansys (Clean System)
-========================
+# cleansys (Clean System)
 
-cleansys is a minimalist CLI tool for systematic digital decluttering through criteria-based file scanning and interactive cleanup.
+A minimalist CLI tool to systematically clean up digital clutter from your file system.
 
-At the current stage, cleansys provides a **safe, read-only scan** that helps you identify candidate files by age and size; destructive operations (move, archive, delete) are not implemented yet.
+## Purpose
+Help users identify and remove unnecessary files that accumulate unnoticed, promoting digital minimalism through focused, criteria-based cleanup.
 
-Quick Start
------------
+## Core Features
+- **Smart Scanning**: Find files by age, size, or type in specified folders
+- **Interactive Review**: Approve each file or batch process with confidence
+- **Safe Operations**: Preview before any deletion, with archive option
+- **Zero Config**: All settings via command-line arguments
 
+## Quick Start
 ```bash
-# Clone and install
-git clone https://github.com/aethrox/cleansys.git
-cd cleansys
-pip install -r requirements.txt
-
-# Basic scan: files not accessed in 6+ months (by folder)
+# Scan Downloads for files not accessed in 6 months
 python main.py ~/Downloads --unused-days 180
 
-# Find large files over 50MB (by folder)
-# NOTE: current implementation expects bytes, e.g. 50 * 1024 * 1024
-python main.py ~/Desktop --min-size 52428800
+# Find large files over 50MB
+python main.py ~/Desktop --min-size 50MB
 
 # Combine criteria
-python main.py ~/Documents --unused-days 365 --min-size 10485760
+python main.py ~/Documents --unused-days 365 --min-size 10MB
 ```
 
-What `scan` does today
-----------------------
-
-- **Walks directories recursively** (by default) from the given root.
-- **Skips hidden entries** (names starting with `.`) and **symlinks** for safety.
-- Collects basic metadata: path, size (bytes), last modified time.
-- Applies optional filters:
-  - `--unused-days`: minimum age in days (based on file timestamps).
-  - `--min-size`: minimum size in bytes.
-- Prints a simple table of matching files and a summary count.
-- Supports `--dry-run` flag to clearly label output as a non-destructive preview (all current behavior is read-only regardless).
-
-Command Reference
------------------
-
+## Installation
 ```bash
-python main.py scan <path> [options]
+git clone https://github.com/yourusername/cleansys
+cd cleansys
+pip install -r requirements.txt
 ```
 
-**Options:**
+## Usage Workflow
+1. **Scan**: Tool lists files matching your criteria
+2. **Review**: Examine each file with metadata (size, last accessed)
+3. **Act**: Choose to keep, move, archive, or delete
+4. **Confirm**: All destructive actions require explicit confirmation
 
-- `--unused-days <n>`: Only include files at least `n` days old.
-- `--min-size <bytes>`: Only include files at least this many bytes.
-- `--recursive / --no-recursive`: Enable/disable recursive scanning (default: recursive).
-- `--dry-run`: Label output as a dry run (no filesystem changes are ever made in the current version).
+## Scope Limitations
+- Local files only (no cloud integration)
+- No automated deletions (user approval required)
+- No file content analysis (metadata only)
+- No background/scheduled operations
 
-Safety & Scope
---------------
-
-- **Read-only by default**: The current implementation does **not** modify, move, archive, or delete any files.
-- **No auto-deletion**: Future destructive operations will always require explicit, case-sensitive confirmation (`yes`/`y`) and will support dry-run previews.
-- **Local only**: cleansys operates on the local filesystem only (no cloud integration).
-- **Metadata only**: Decisions are based on metadata (age, size, type), not file contents.
-
-Requirements
-------------
-
+## Requirements
 - Python 3.8+
-- Dependencies:
-  - [Typer](https://typer.tiangolo.com/) (CLI framework) – installed via `requirements.txt`.
+- No external dependencies beyond standard library + CLI framework
 
-License
--------
+## Commands & Options
 
+- **Positional argument**
+  - `path`: Root directory to scan (e.g., `~/Downloads`, `C:\\Users\\you\\Desktop`)
+
+- **Common options**
+  - `--unused-days INT`: Minimum days since last access (e.g., `--unused-days 180`)
+  - `--min-size TEXT`: Minimum file size (supports units like `10MB`, `500KB`)
+  - `--dry-run / --no-dry-run`: Show what would happen without making changes (honors the CLI default)
+
+- **Interactive actions**
+  - Review each file and choose: keep, move, archive, or delete
+  - Batch operations are only performed after explicit confirmation
+
+## Safety & Logging
+
+- **Preview before actions**: Files, sizes, and last-access times are shown before any destructive operation.
+- **Explicit confirmation**: Deletes and other destructive actions require a clear `y/yes` confirmation.
+- **Dry-run mode**: When `--dry-run` is enabled, all actions are printed as `[DRY RUN] Would ...` messages and nothing on disk is changed.
+- **Operation log**: Destructive operations are logged with timestamp, action, and path in a human-readable log file (for example `cleansys.log`).
+
+## Platform Support
+
+cleansys is intended to be **cross-platform** and works on:
+- **Windows** (PowerShell or Command Prompt)
+- **macOS** (Terminal)
+- **Linux** (common shells like bash/zsh)
+
+Path examples in this README use Unix-style (`~/Downloads`) and Windows-style (`C:\\Users\\you\\Downloads`) paths; adjust them to match your system.
+
+## License
 MIT
 
-Contributing
-------------
-
-Focus on simplicity and safety:
-
-- Prefer small, focused additions that improve clarity or safety.
-- Avoid adding configuration files, background jobs, or networked features.
-- New features should align with the core goal: **help users identify and safely clean digital clutter.**
-
+## Contributing
+Focus on simplicity. Reject features that add complexity without clear benefit.
