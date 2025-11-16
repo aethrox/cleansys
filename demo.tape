@@ -1,7 +1,7 @@
 Set Shell "bash"
-Set Width 900
-Set Height 450
-Set FontSize 22
+Set Width 1100
+Set Height 520
+Set FontSize 20
 Set Theme "Catppuccin Frappe"
 Set Padding 20
 Set Margin 24
@@ -26,24 +26,30 @@ Show
 
 Type "python main.py ~/Downloads --unused-days 180"
 Enter
-Sleep 2s
+Sleep 4s
 Type "k"
 Enter
-Sleep 2s
+Sleep 4s
 
 Type "python main.py ~/Desktop --min-size 50MB"
 Enter
-Sleep 2s
-Type "k"
+Sleep 4s
+Type "d"
 Enter
-Sleep 2s
+Sleep 4s
+Type "yes"
+Enter
+Sleep 4s
 
 Type "python main.py ~/Documents --unused-days 365 --min-size 10MB"
 Enter
-Sleep 2s
-Type "k"
+Sleep 4s
+Type "a"
 Enter
-Sleep 2s
+Sleep 4s
+Type "./demo-archive.zip"
+Enter
+Sleep 4s
 
-Sleep 2s
+Sleep 4s
 Output cli-example.gif
