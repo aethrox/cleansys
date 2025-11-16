@@ -3,7 +3,7 @@ from typing import Iterable, List
 from datetime import datetime
 
 from .analyzer import FileInfo
-from .operations import preview_archive, preview_delete, preview_move
+from .operations import archive_files, delete_file, move_file
 
 
 def render_scan_header(root: str, min_size: int | None, min_age_days: int | None, dry_run: bool) -> None:
@@ -86,8 +86,8 @@ def _prompt_destination(default: Path | None = None) -> Path:
 def run_interactive_review(files: List[FileInfo], dry_run: bool) -> None:
     """Run per-file interactive review loop.
 
-    This step only calls preview operations; real filesystem
-    changes are implemented separately.
+    All actions respect dry-run mode; delete additionally requires
+    explicit confirmation from the user.
     """
     total = len(files)
     if total == 0:
@@ -104,15 +104,15 @@ def run_interactive_review(files: List[FileInfo], dry_run: bool) -> None:
             break
         if action == "m":
             dst = _prompt_destination()
-            preview_move(info.path, dst, dry_run=dry_run)
+            move_file(info.path, dst, dry_run=dry_run)
             continue
         if action == "a":
             archive_path = _prompt_destination()
-            preview_archive(info.path, archive_path, dry_run=dry_run)
+            archive_files([info.path], archive_path, dry_run=dry_run)
             continue
         if action == "d":
             if confirm_action(f"About to delete {info.path}"):
-                preview_delete(info.path, dry_run=dry_run)
+                delete_file(info.path, dry_run=dry_run)
             else:
                 print("Delete cancelled.")
 
