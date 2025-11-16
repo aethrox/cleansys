@@ -23,6 +23,10 @@ python main.py ~/Desktop --min-size 50MB
 python main.py ~/Documents --unused-days 365 --min-size 10MB
 ```
 
+## CLI Demo
+
+![cleansys CLI demo](cli-example.gif)
+
 ## Installation
 ```bash
 git clone https://github.com/yourusername/cleansys

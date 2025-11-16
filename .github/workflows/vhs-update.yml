@@ -1,0 +1,46 @@
+name: Update VHS demo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  vhs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Generate VHS tape from README
+        run: python scripts/generate_demo_tape.py
+
+      - name: Run VHS
+        uses: charmbracelet/vhs-action@v2
+        with:
+          path: "demo.tape"
+          version: "latest"
+          token: ${{ github.token }}
+          install-fonts: "false"
+
+      - name: Commit updated demo assets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update CLI demo GIF and tape"
+          branch: main
+          file_pattern: "cli-example.gif demo.tape vhs_config.json"
+
+

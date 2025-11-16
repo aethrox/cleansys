@@ -1,0 +1,15 @@
+{
+  "output_filename": "cli-example.gif",
+  "style_settings": {
+    "theme": "Catppuccin Frappe",
+    "width": 120,
+    "height": 30,
+    "fontsize": 16,
+    "padding": 16,
+    "margin": 40,
+    "margin_fill": "#1E1E2E"
+  },
+  "sleep_duration_ms": 2000
+}
+
+
