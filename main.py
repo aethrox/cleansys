@@ -36,6 +36,9 @@ def scan(
         except ValueError as exc:
             typer.echo(f"Error: {exc}")
             raise typer.Exit(code=1)
+    if not root.exists():
+        typer.echo(f"Error: Path does not exist: {root}")
+        raise typer.Exit(code=1)
     render_scan_header(str(root), parsed_min_size, unused_days, dry_run)
     paths = list(scan_directory(root, recursive=recursive))
     infos = to_file_info(paths)
@@ -45,6 +48,9 @@ def scan(
         min_age_days=unused_days,
         file_types=file_type or None,
     )
+    if not filtered:
+        typer.echo("No files matched the given criteria. Try adjusting --unused-days, --min-size, or --file-type.")
+        return
     stats = run_interactive_review(filtered, dry_run=dry_run)
     render_scan_summary(stats, dry_run=dry_run)
 

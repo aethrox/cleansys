@@ -21,6 +21,7 @@ def scan_directory(root: Path, recursive: bool = True) -> Iterator[Path]:
         try:
             entries = list(current.iterdir())
         except PermissionError:
+            print(f"[WARN] Skipping directory (permission denied): {current}")
             continue
         for entry in entries:
             if entry.name.startswith("."):
