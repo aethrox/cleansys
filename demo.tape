@@ -1,10 +1,10 @@
 Set Shell "bash"
-Set Width 1200
-Set Height 500
-Set FontSize 26
+Set Width 900
+Set Height 450
+Set FontSize 22
 Set Theme "Catppuccin Frappe"
-Set Padding 24
-Set Margin 32
+Set Padding 20
+Set Margin 24
 Set MarginFill "#1E1E2E"
 
 Hide
@@ -27,12 +27,21 @@ Show
 Type "python main.py ~/Downloads --unused-days 180"
 Enter
 Sleep 2s
+Type "k"
+Enter
+Sleep 2s
 
 Type "python main.py ~/Desktop --min-size 50MB"
 Enter
 Sleep 2s
+Type "k"
+Enter
+Sleep 2s
 
 Type "python main.py ~/Documents --unused-days 365 --min-size 10MB"
+Enter
+Sleep 2s
+Type "k"
 Enter
 Sleep 2s
 
