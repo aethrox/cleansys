@@ -109,14 +109,15 @@ def _build_tape(examples: List[str], cfg: Dict[str, Any]) -> str:
     ] + _build_setup_block()
     body: List[str] = []
     for cmd in examples:
-        body.extend(
-            [
-                f'Type "{cmd}"',
-                "Enter",
-                f"Sleep {sleep}",
-                "",
-            ]
-        )
+        # Run the CLI command
+        body.append(f'Type "{cmd}"')
+        body.append("Enter")
+        body.append(f"Sleep {sleep}")
+        # Choose an action for the single matching file so the command completes
+        body.append('Type "k"')
+        body.append("Enter")
+        body.append(f"Sleep {sleep}")
+        body.append("")
     footer = [
         f"Sleep {sleep}",
         f"Output {output_name}",
