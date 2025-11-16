@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 import pytest
 
@@ -51,3 +50,28 @@ def test_scan_directory_skips_hidden_and_symlinks(tmp_path) -> None:
     if can_symlink:
         assert "link.txt" not in names
 
+
+def test_scan_directory_permission_denied_directory_is_skipped(tmp_path, monkeypatch, capsys) -> None:
+    root = tmp_path
+    ok_dir = root / "ok"
+    ok_dir.mkdir()
+    blocked = root / "blocked"
+    blocked.mkdir()
+    visible = ok_dir / "visible.txt"
+    create_file(visible)
+
+    original_iterdir = Path.iterdir
+
+    def fake_iterdir(self: Path):
+        if self == blocked:
+            raise PermissionError
+        return original_iterdir(self)
+
+    monkeypatch.setattr(Path, "iterdir", fake_iterdir)
+
+    paths = list(scan_directory(root, recursive=True))
+    names = {p.name for p in paths}
+
+    captured = capsys.readouterr().out
+    assert "permission denied" in captured.lower()
+    assert "visible.txt" in names
