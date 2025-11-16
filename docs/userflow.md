@@ -32,8 +32,7 @@ Actions: [K]eep | [M]ove | [A]rchive | [D]elete | [S]kip all
 - Delete shows confirmation
 
 #### Option B: Batch Processing
-- User presses `S` to mark remaining as "skip"
-- Or uses `--batch-mode` flag for bulk actions
+- User presses `S` to mark remaining as "skip" for the rest of the run
 
 ### 4. Execution Summary
 ```
@@ -62,13 +61,13 @@ python main.py <path> [options]
 ### Examples
 ```bash
 # Desktop files over 100MB
-python main.py scan ~/Desktop --min-size 100MB
+python main.py ~/Desktop --min-size 100MB
 
 # Old log files
-python main.py scan /var/log --file-type .log --unused-days 90
+python main.py /var/log --file-type .log --unused-days 90
 
 # Combine filters
-python main.py scan ~/Documents --unused-days 365 --min-size 50MB
+python main.py ~/Documents --unused-days 365 --min-size 50MB
 ```
 
 ## Interaction Principles

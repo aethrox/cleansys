@@ -21,9 +21,9 @@
 
 ### Medium priority
 
-- [ ] Align packaging and distribution (PyPI metadata, entry point) with `docs/project-naming.md` and `docs/techstack.md`, verifying the `cleansys` CLI entry works when installed.
-- [ ] Keep README and docs in sync with actual behavior, especially options, examples, safety notes, and the end-of-run summary format described in `docs/userflow.md`.
-- [ ] Confirm the VHS demo pipeline (generator script, `vhs_config.json`, GitHub workflow, `cli-example.gif`) continues to reflect current Quick Start examples in README and fails clearly on mismatch.
-- [ ] Document where logs are stored, what fields they contain, and how dry-run vs real runs are represented, keeping wording friendly and minimal.
+- [x] Align packaging and distribution (PyPI metadata, entry point) with `docs/project-naming.md` and `docs/techstack.md`, verifying the `cleansys` CLI entry works when installed.
+- [x] Keep README and docs in sync with actual behavior, especially options, examples, safety notes, and the end-of-run summary format described in `docs/userflow.md`.
+- [x] Confirm the VHS demo pipeline (generator script, `vhs_config.json`, GitHub workflow, `cli-example.gif`) continues to reflect current Quick Start examples in README and fails clearly on mismatch.
+- [x] Document where logs are stored, what fields they contain, and how dry-run vs real runs are represented, keeping wording friendly and minimal.
 
 

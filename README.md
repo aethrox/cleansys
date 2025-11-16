@@ -90,8 +90,11 @@ python main.py ~/Downloads --unused-days 180
 
 - **Preview before actions**: Files, sizes, and last-access times are shown before any destructive operation.
 - **Explicit confirmation**: Deletes and other destructive actions require a clear `y/yes` confirmation.
-- **Dry-run mode**: When `--dry-run` is enabled, all actions are printed as `[DRY RUN] Would ...` messages and nothing on disk is changed.
-- **Operation log**: Destructive operations are logged with timestamp, action, and path in a human-readable log file (for example `cleansys.log`).
+- **Dry-run mode**: When `--dry-run` is enabled, all actions are printed as `[DRY RUN] ...` messages and nothing on disk is changed.
+- **Operation log**: All move/archive/delete attempts are logged to a `cleansys.log` file in the current working directory with timestamp, action, and path.
+  - Real operations are logged as `MOVE`, `ARCHIVE`, or `DELETE`.
+  - Dry-run previews are logged with a `[DRY RUN]` prefix.
+  - Errors and warnings are logged with `[ERROR]` or `[WARN]` so you can review what was skipped or failed.
 
 ## Platform Support
 

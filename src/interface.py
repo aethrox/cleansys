@@ -61,7 +61,7 @@ def display_file(file: FileInfo, index: int, total: int) -> None:
     ts = datetime.fromtimestamp(file.access_ts)
     print(f"[{index}/{total}] {file.path.name}")
     print(f"├─ Size: {file.size} bytes")
-    print(f"├─ Last modified: {ts.date()}")
+    print(f"├─ Last accessed: {ts.date()}")
     print(f"└─ Type: {file.path.suffix.lstrip('.') or 'unknown'}")
     print()
     print("Actions: [K]eep | [M]ove | [A]rchive | [D]elete | [S]kip all")

@@ -6,6 +6,49 @@ on:
       - main
 
 jobs:
+  generate-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Generate demo.tape from README Quick Start
+        run: |
+          python scripts/generate_demo_tape.py
+
+      - name: Set up VHS
+        uses: charmbracelet/vhs-action@v2
+        with:
+          tape: demo.tape
+
+      - name: Commit updated demo assets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update CLI demo tape and GIF"
+          file_pattern: |
+            demo.tape
+            cli-example.gif
+            vhs_config.json
+
+name: Update VHS demo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
   vhs:
     runs-on: ubuntu-latest
     permissions:
