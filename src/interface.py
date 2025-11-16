@@ -31,7 +31,7 @@ def render_scan_summary(count: int) -> None:
 
 def display_file(file: FileInfo, index: int, total: int) -> None:
     """Show per-file details for interactive review."""
-    ts = datetime.fromtimestamp(file.mtime)
+    ts = datetime.fromtimestamp(file.access_ts)
     print(f"[{index}/{total}] {file.path.name}")
     print(f"├─ Size: {file.size} bytes")
     print(f"├─ Last modified: {ts.date()}")

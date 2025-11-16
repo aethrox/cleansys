@@ -33,9 +33,14 @@ def scan_directory(root: Path, recursive: bool = True) -> Iterator[Path]:
                 stack.append(entry)
 
 
-def get_mtime(path: Path) -> datetime:
-    """Return modification time for given path."""
-    return datetime.fromtimestamp(path.stat().st_mtime)
+def get_access_time(path: Path) -> datetime:
+    """Return last access time for given path.
+
+    We use access time to implement the --unused-days behavior,
+    acknowledging that some platforms may update it coarsely or not at all.
+    """
+    stat = path.stat()
+    return datetime.fromtimestamp(stat.st_atime)
 
 
 def get_size(path: Path) -> int:

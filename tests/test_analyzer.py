@@ -5,10 +5,10 @@ from src.analyzer import FileInfo, filter_files
 
 
 def make_file_info(size: int, age_days: int) -> FileInfo:
-    """Create FileInfo with given size and age."""
+    """Create FileInfo with given size and age (access time)."""
     now_ts = time()
-    mtime = now_ts - age_days * 86400
-    return FileInfo(path=Path(f"file_{size}_{age_days}.txt"), size=size, mtime=mtime)
+    access_ts = now_ts - age_days * 86400
+    return FileInfo(path=Path(f"file_{size}_{age_days}.txt"), size=size, access_ts=access_ts)
 
 
 def test_filter_files_by_min_size() -> None:
@@ -23,8 +23,8 @@ def test_filter_files_by_min_size() -> None:
 
 def test_filter_files_by_min_age_days() -> None:
     now_ts = time()
-    old_file = FileInfo(path=Path("old.txt"), size=100, mtime=now_ts - 200 * 86400)
-    new_file = FileInfo(path=Path("new.txt"), size=100, mtime=now_ts - 10 * 86400)
+    old_file = FileInfo(path=Path("old.txt"), size=100, access_ts=now_ts - 200 * 86400)
+    new_file = FileInfo(path=Path("new.txt"), size=100, access_ts=now_ts - 10 * 86400)
 
     filtered = filter_files([old_file, new_file], min_size=None, min_age_days=180, now_ts=now_ts)
 
@@ -35,9 +35,9 @@ def test_filter_files_by_min_age_days() -> None:
 
 def test_filter_files_by_file_type() -> None:
     now_ts = time()
-    txt_file = FileInfo(path=Path("note.txt"), size=100, mtime=now_ts)
-    log_file = FileInfo(path=Path("app.log"), size=100, mtime=now_ts)
-    tmp_file = FileInfo(path=Path("cache.TMP"), size=100, mtime=now_ts)
+    txt_file = FileInfo(path=Path("note.txt"), size=100, access_ts=now_ts)
+    log_file = FileInfo(path=Path("app.log"), size=100, access_ts=now_ts)
+    tmp_file = FileInfo(path=Path("cache.TMP"), size=100, access_ts=now_ts)
 
     filtered = filter_files(
         [txt_file, log_file, tmp_file],

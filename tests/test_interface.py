@@ -20,7 +20,7 @@ def test_normalize_action_invalid_inputs() -> None:
 
 
 def test_display_file_outputs_name_and_type(capsys) -> None:
-    info = FileInfo(path=Path("example.txt"), size=123, mtime=0.0)
+    info = FileInfo(path=Path("example.txt"), size=123, access_ts=0.0)
     display_file(info, index=1, total=1)
     captured = capsys.readouterr().out
     assert "[1/1] example.txt" in captured
