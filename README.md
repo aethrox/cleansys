@@ -27,11 +27,6 @@ cleansys ~/Documents --unused-days 365 --min-size 10MB
 
 ![cleansys CLI demo](cli-example.gif)
 
-This animated demo is generated automatically in CI using a VHS tape
-(`demo.tape`) derived from the **Quick Start** commands. The tape sets up
-a small sandbox of demo files and walks through keeping, deleting, and
-archiving matches so the GIF always reflects the current CLI behavior.
-
 ## Installation
 
 Install with pip from a local clone:
