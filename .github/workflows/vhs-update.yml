@@ -28,10 +28,21 @@ jobs:
       - name: Generate VHS tape from README
         run: python scripts/generate_demo_tape.py
 
-      - name: Install FFmpeg Dependency
+      - name: "🛠️ Install All VHS Dependencies (ffmpeg and ttyd)"
         run: |
+          # Update packages and install ffmpeg (required for GIF/video output)
           sudo apt-get update
           sudo apt-get install -y ffmpeg
+
+          # Install ttyd (required for terminal simulation) from GitHub Releases
+          TTYD_VERSION="1.7.4"
+          TTYD_URL="https://github.com/tsl0922/ttyd/releases/download/${TTYD_VERSION}/ttyd.x86_64"
+
+          echo "::group::Installing ttyd"
+          curl -fsSL "${TTYD_URL}" -o ttyd
+          chmod +x ttyd
+          sudo mv ttyd /usr/local/bin/
+          echo "::endgroup::"
 
       - name: Run VHS
         uses: charmbracelet/vhs-action@v2
@@ -39,7 +50,6 @@ jobs:
           path: "demo.tape"
           version: "latest"
           token: ${{ github.token }}
-          install-dependencies: "false"
           install-fonts: "false"
 
       - name: Commit updated demo assets
