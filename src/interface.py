@@ -122,14 +122,14 @@ def run_interactive_review(files: List[FileInfo], dry_run: bool) -> Stats:
         return stats
 
     for idx, info in enumerate(files, start=1):
-        display_file(info, idx, total)
+        display_file(info, idx, stats.total)
         action = prompt_action()
         if action == "k":
             stats.kept += 1
             continue
         if action == "s":
             print("Skipping remaining files.")
-            remaining = total - idx + 1
+            remaining = stats.total - idx + 1
             stats.skipped += remaining
             break
         if action == "m":
