@@ -107,4 +107,3 @@ jobs:
           branch: main
           file_pattern: "cli-example.gif demo.tape vhs_config.json"
 
-

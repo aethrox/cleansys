@@ -61,6 +61,10 @@ python main.py ~/Downloads --unused-days 180
 3. **Act**: Choose to keep, move, archive, or delete
 4. **Confirm**: All destructive actions require explicit confirmation
 
+For a detailed, step-by-step walkthrough of prompts, actions, and the end-of-run
+summary format, see `docs/userflow.md`, which is the canonical reference for the
+interactive flow.
+
 ## Scope Limitations
 - Local files only (no cloud integration)
 - No automated deletions (user approval required)
