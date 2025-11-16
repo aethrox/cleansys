@@ -2,7 +2,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from main import app
+from main import app, main
 
 
 runner = CliRunner()
@@ -22,4 +22,15 @@ def test_scan_no_matches_shows_friendly_message(tmp_path) -> None:
     assert result.exit_code == 0
     assert "No files matched the given criteria" in result.stdout
 
+
+def test_main_entry_point_invokes_app_help(capsys) -> None:
+    """Ensure the console script target `main` calls the Typer app without crashing.
+
+    This simulates what `cleansys` does when installed as a console script.
+    """
+    # Running with --help should exit cleanly and print usage.
+    runner = CliRunner()
+    result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 0
+    assert "Usage: " in result.stdout
 

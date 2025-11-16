@@ -14,13 +14,13 @@ Help users identify and remove unnecessary files that accumulate unnoticed, prom
 ## Quick Start
 ```bash
 # Scan Downloads for files not accessed in 6 months
-python main.py ~/Downloads --unused-days 180
+cleansys ~/Downloads --unused-days 180
 
 # Find large files over 50MB
-python main.py ~/Desktop --min-size 50MB
+cleansys ~/Desktop --min-size 50MB
 
 # Combine criteria
-python main.py ~/Documents --unused-days 365 --min-size 10MB
+cleansys ~/Documents --unused-days 365 --min-size 10MB
 ```
 
 ## CLI Demo
@@ -33,10 +33,26 @@ a small sandbox of demo files and walks through keeping, deleting, and
 archiving matches so the GIF always reflects the current CLI behavior.
 
 ## Installation
+
+Install with pip from a local clone:
+
 ```bash
 git clone https://github.com/yourusername/cleansys
 cd cleansys
-pip install -r requirements.txt
+python -m pip install .
+```
+
+After installation you can run the CLI directly as:
+
+```bash
+cleansys --help
+cleansys ~/Downloads --unused-days 180
+```
+
+For development, you can still run it without installing:
+
+```bash
+python main.py ~/Downloads --unused-days 180
 ```
 
 ## Usage Workflow

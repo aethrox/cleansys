@@ -35,7 +35,11 @@ def _load_config(root: Path) -> Dict[str, Any]:
 
 
 def _extract_examples(lines: List[str], max_examples: int = 3) -> List[str]:
-    """Extract up to max_examples CLI commands from the Quick Start code block."""
+    """Extract up to max_examples CLI commands from the Quick Start code block.
+
+    Supports both legacy `python main.py ...` and the preferred `cleansys ...`
+    form by normalizing legacy examples to `cleansys`.
+    """
     in_block = False
     examples: List[str] = []
     for line in lines:
@@ -47,10 +51,14 @@ def _extract_examples(lines: List[str], max_examples: int = 3) -> List[str]:
             break
         if not in_block:
             continue
-        if stripped.startswith("python "):
+        if stripped.startswith("cleansys "):
             examples.append(stripped)
-            if len(examples) >= max_examples:
-                break
+        elif stripped.startswith("python ") and "main.py" in stripped:
+            # Normalize older README examples to the installed CLI name.
+            normalized = stripped.replace("python main.py", "cleansys", 1)
+            examples.append(normalized)
+        if len(examples) >= max_examples:
+            break
     if not examples:
         raise RuntimeError("No CLI examples found in README Quick Start block.")
     return examples

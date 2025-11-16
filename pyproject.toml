@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cleansys"
+version = "0.1.0"
+description = "Minimalist CLI tool to clean up digital clutter from your file system."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Your Name" }]
+dependencies = [
+  "typer>=0.9.0",
+]
+
+[project.scripts]
+cleansys = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]
+packages = ["src"]
+
+
