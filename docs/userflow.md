@@ -4,7 +4,7 @@
 
 ### 1. Initiate Scan
 ```
-$ python main.py scan ~/Downloads --unused-days 180
+$ python main.py ~/Downloads --unused-days 180
 ```
 
 **System Response:**
@@ -50,7 +50,7 @@ Complete. No errors.
 
 ### Basic Scan
 ```bash
-python main.py scan <path> [options]
+python main.py <path> [options]
 ```
 
 ### Options
@@ -58,7 +58,6 @@ python main.py scan <path> [options]
 - `--min-size <size>`: Minimum file size (e.g., 10MB, 500KB)
 - `--file-type <ext>`: Filter by extension (e.g., .log, .tmp)
 - `--dry-run`: Preview without actions
-- `--batch-mode`: Apply same action to all matches
 
 ### Examples
 ```bash

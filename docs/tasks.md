@@ -13,7 +13,7 @@
 
 ### High priority
 
-- [ ] Verify CLI behavior and options match `docs/userflow.md` and README examples (including `--batch-mode`, `--dry-run`, `--file-type`, `--min-size`, and `--unused-days` semantics).
+- [x] Verify CLI behavior and options match `docs/userflow.md` and README examples (including `--dry-run`, `--file-type`, `--min-size`, and `--unused-days` semantics).
 - [ ] Extend unit tests for criteria matching and utilities (size parsing, analyzer filters, and any new CLI helpers) to cover edge cases and failure paths described in `docs/devguide.md`.
 - [ ] Add or refine integration tests for `scanner.py` and `operations.py` using temporary directories, ensuring safe handling of permission errors, missing files, and dry-run behavior.
 - [ ] Ensure CI runs tests and linting on pushes/PRs, keeping the pipeline minimal and aligned with the project’s safety and scope rules.

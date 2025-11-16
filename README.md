@@ -79,6 +79,7 @@ python main.py ~/Downloads --unused-days 180
 - **Common options**
   - `--unused-days INT`: Minimum days since last access (e.g., `--unused-days 180`)
   - `--min-size TEXT`: Minimum file size (supports units like `10MB`, `500KB`)
+  - `--file-type TEXT`: Filter by extension (repeatable; e.g., `--file-type .log --file-type tmp`)
   - `--dry-run / --no-dry-run`: Show what would happen without making changes (honors the CLI default)
 
 - **Interactive actions**
