@@ -17,7 +17,7 @@
 - [x] Extend unit tests for criteria matching and utilities (size parsing, analyzer filters, and any new CLI helpers) to cover edge cases and failure paths described in `docs/devguide.md`.
 - [x] Add or refine integration tests for `scanner.py` and `operations.py` using temporary directories, ensuring safe handling of permission errors, missing files, and dry-run behavior.
 - [x] Ensure CI runs tests and linting on pushes/PRs, keeping the pipeline minimal and aligned with the project’s safety and scope rules.
-- [ ] Periodically validate cross-platform behavior (Windows, macOS, Linux) against the release checklist in `docs/devguide.md` (confirmations, path handling, error messages).
+- [x] Periodically validate cross-platform behavior (Windows, macOS, Linux) against the release checklist in `docs/devguide.md` (confirmations, path handling, error messages).
 
 ### Medium priority
 

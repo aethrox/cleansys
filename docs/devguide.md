@@ -94,6 +94,23 @@ Only if requested by multiple users AND maintains simplicity:
 - [ ] README examples are tested
 - [ ] Error messages are helpful, not technical
 
+### Cross-platform validation guide
+
+When preparing a release (or periodically on `main`), run the same basic checks on
+Windows, macOS, and Linux:
+
+- Use a path idiomatic to the platform:
+  - Windows: `python main.py C:\Users\you\Downloads --unused-days 1 --dry-run`
+  - macOS/Linux: `python main.py ~/Downloads --unused-days 1 --dry-run`
+- Confirm that:
+  - The scan starts and completes without tracebacks.
+  - Confirmation prompts for delete actions are clear and require explicit `yes`/`y`.
+  - Error messages for invalid paths or permissions are friendly and consistent with the README.
+  - The end-of-run summary format matches `docs/userflow.md`.
+
+These checks keep behavior predictable across shells and platforms without adding
+extra configuration or platform-specific branches in the code.
+
 ## VHS-powered CLI demo (automation)
 
 - The CLI demo GIF in the main `README.md` (`cli-example.gif`) is generated from
