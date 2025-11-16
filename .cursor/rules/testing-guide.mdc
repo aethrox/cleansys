@@ -1,0 +1,138 @@
+---
+alwaysApply: false
+---
+
+# Testing Guidelines
+
+## Testing Philosophy
+- **Prioritize critical paths**: Test safety and core logic first
+- **Use real files in temp directories**: No complex mocking
+- **Fast tests**: Entire suite under 5 seconds
+- **Simple assertions**: Clear pass/fail, easy to debug
+
+## What to Test
+
+### Priority 1: Critical Safety
+- Deletion requires confirmation
+- Dry-run doesn't modify files
+- Operations fail safely on errors
+- Filters don't match wrong files
+
+### Priority 2: Core Logic
+- Criteria filtering (age, size, type)
+- File metadata collection
+- Archive creation
+- Move operations
+
+### Priority 3: Edge Cases
+- Empty directories
+- Permission errors
+- Invalid paths
+- Zero-byte files
+
+## What NOT to Test
+- CLI output formatting (visual QA instead)
+- User input prompts (manual testing)
+- Third-party library internals
+- File system performance
+
+## Test Structure
+
+### Unit Tests
+Test individual functions in isolation.
+
+```python
+# test_analyzer.py
+def test_filter_by_age():
+    files = [
+        FileInfo(path="old.txt", last_access=days_ago(200)),
+        FileInfo(path="new.txt", last_access=days_ago(50))
+    ]
+    result = filter_by_age(files, min_days=180)
+    assert len(result) == 1
+    assert result[0].path == "old.txt"
+```
+
+### Integration Tests
+Test module interactions with real temp files.
+
+```python
+# test_operations.py
+def test_move_file(tmp_path):
+    src = tmp_path / "source.txt"
+    src.write_text("test")
+    dst = tmp_path / "dest" / "source.txt"
+    
+    success = move_file(src, dst)
+    
+    assert success
+    assert dst.exists()
+    assert not src.exists()
+```
+
+## Test Utilities
+
+### Fixtures
+```python
+@pytest.fixture
+def temp_files(tmp_path):
+    """Create test file structure"""
+    (tmp_path / "old.txt").write_text("old")
+    (tmp_path / "new.log").write_text("new")
+    # Set access times
+    return tmp_path
+```
+
+### Helpers
+```python
+def create_file(path: Path, size_mb: int) -> None:
+    """Create file with specific size"""
+    
+def set_access_time(path: Path, days_ago: int) -> None:
+    """Set file's last access time"""
+```
+
+## Testing Destructive Operations
+
+### Use Temporary Directories
+```python
+def test_delete(tmp_path):
+    file = tmp_path / "delete-me.txt"
+    file.write_text("content")
+    
+    delete_file(file)
+    
+    assert not file.exists()
+```
+
+### Never Test on Real User Files
+- Always use pytest's `tmp_path` fixture
+- Never hardcode paths like `/Users/...` or `C:\...`
+- Clear temp directories after tests
+
+## Coverage Goals
+- **Critical safety functions**: 100%
+- **Core logic (analyzer, operations)**: 90%+
+- **Scanner**: 80%+
+- **Interface**: Manual testing only
+
+## Running Tests
+```bash
+# All tests
+pytest
+
+# Specific module
+pytest tests/test_analyzer.py
+
+# With coverage
+pytest --cov=src
+
+# Fast (skip slow tests)
+pytest -m "not slow"
+```
+
+## CI Requirements
+- Tests must pass on Windows, macOS, Linux
+- No external dependencies for tests
+- Tests run in under 5 seconds total
+- Zero flaky tests allowed

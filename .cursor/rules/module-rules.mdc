@@ -1,0 +1,63 @@
+---
+alwaysApply: true
+---
+## interface.py
+**Purpose**: CLI display and user interaction
+
+**Responsibilities**:
+- Display file information in terminal
+- Present options and capture user decisions
+- Format output (tables, summaries)
+- Handle keyboard input
+
+**Does NOT**:
+- Execute file operations
+- Scan directories
+- Contain business logic
+
+**Key Functions**:
+```python
+def display_file(file: FileInfo, index: int, total: int) -> None
+def prompt_action() -> Action
+def show_summary(stats: Stats) -> None
+```
+
+---
+
+## operations.py
+**Purpose**: File operation execution
+
+**Responsibilities**:
+- Move files to destination
+- Create zip archives
+- Delete files permanently
+- Return operation results
+
+**Does NOT**:
+- Decide which files to operate on
+- Interact with user for confirmation (handled in interface)
+- Scan or filter files
+
+**Key Functions**:
+```python
+def move_file(src: Path, dst: Path) -> bool
+def archive_files(files: list[Path], archive_name: str) -> bool
+def delete_file(path: Path) -> bool
+```
+
+---
+
+## Data Flow
+```
+main.py
+  ↓
+scanner.py → [FileInfo list]
+  ↓
+analyzer.py → [Filtered FileInfo list]
+  ↓
+interface.py → [User decisions]
+  ↓
+operations.py → [Execute actions]
+  ↓
+interface.py → [Show results]
+```

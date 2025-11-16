@@ -1,0 +1,102 @@
+---
+alwaysApply: true
+---
+
+# Scope Control
+
+## Decision Framework
+When evaluating new features or suggestions, use this framework:
+
+### ✅ Accept if:
+1. Directly serves core purpose (identify and remove clutter)
+2. Maintains simplicity (no new dependencies)
+3. Improves safety or clarity
+4. Requested by multiple users
+5. Implementation under 50 lines
+
+### ❌ Reject if:
+1. Adds complexity without clear benefit
+2. Requires external service or network
+3. Creates persistent state or configuration
+4. Makes tool less predictable
+5. Feature can be done with standard CLI tools
+
+## Explicitly Out of Scope
+
+### Never Implement
+- **Automated scheduling**: Defeats interactive review purpose
+- **Cloud integration**: Local tool only
+- **Duplicate detection**: Different problem domain
+- **File content analysis**: Metadata only
+- **Undo/recovery**: Adds complexity, users should backup
+- **Multi-user features**: Single user by design
+- **Web interface**: CLI tool only
+- **Plugin system**: Avoid complexity
+- **Custom scripting**: Keep it simple
+
+### Acceptable Additions
+Only if they maintain minimalism:
+- Additional filter criteria (file owner, permissions)
+- Export scan results to CSV
+- Custom archive naming
+- Additional move/organize options
+
+## Feature Request Response Template
+
+When a user requests a feature:
+
+```
+Thank you for the suggestion. This project focuses on [core purpose].
+
+[Feature X] would require [complexity/dependency/state] which goes 
+against our minimalist philosophy.
+
+Consider using [alternative tool/approach] for this use case.
+```
+
+## Complexity Budget
+- **Total lines of code**: Under 1000 (excluding tests)
+- **Dependencies**: Standard library + 1 CLI framework
+- **User-facing commands**: Under 5
+- **Configuration options**: Zero (CLI args only)
+
+## When to Split
+If considering a feature that:
+- Doubles codebase size
+- Requires new major dependency
+- Serves different primary use case
+
+→ Create separate tool instead
+
+## Maintenance Philosophy
+- Fix bugs immediately
+- Add features very slowly
+- Remove unused features quickly
+- Refactor for simplicity, not features
+
+## Code Removal
+Actively remove code that:
+- Hasn't been used in 6 months
+- Has complex workarounds
+- Duplicates standard library functionality
+- Was added "just in case"
+
+## Red Flags in Pull Requests
+- "We might need this later"
+- "Just a small addition"
+- "Optional feature flag"
+- Adding config files
+- New external dependency
+- "Enterprise ready"
+- "AI-powered"
+
+## Questions to Ask
+Before adding anything:
+
+1. Can we do this with existing code?
+2. Can users achieve this with standard tools?
+3. Does this make the tool harder to understand?
+4. Will this require ongoing maintenance?
+5. Does this serve our core purpose?
+
+If answer to #5 is no, reject immediately.

@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+---
+
+# Project Context
+
+## Project Name
+Digital Declutter Helper
+
+## Core Purpose
+A minimalist CLI tool that helps users systematically identify and remove digital clutter from their file system through criteria-based scanning and interactive review.
+
+## Philosophy
+- **Minimalism**: Every feature must justify its existence
+- **Safety**: No destructive action without explicit user approval
+- **Clarity**: Simple, predictable behavior over complex features
+- **Focus**: Stay within scope, reject feature creep
+
+## Technology Stack
+- **Language**: Python 3.8+
+- **CLI Framework**: Click or Typer (choose one)
+- **Dependencies**: Standard library preferred
+- **Platform**: Cross-platform (Windows, macOS, Linux)
+
+## Project Structure
+```
+digital-declutter/
+├── src/
+│   ├── scanner.py      # File discovery & metadata
+│   ├── analyzer.py     # Criteria matching
+│   ├── interface.py    # CLI interaction
+│   └── operations.py   # File operations
+├── tests/
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+## What This Project IS
+- Local file system scanner with criteria filters
+- Interactive decision interface for file management
+- Safe executor of user-approved operations
+
+## What This Project IS NOT
+- Backup solution or recovery tool
+- Automated cleanup daemon
+- Duplicate file finder
+- Cloud storage manager
+- System optimizer
