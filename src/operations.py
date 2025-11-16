@@ -1,6 +1,20 @@
 from pathlib import Path
+from datetime import datetime
 import shutil
 import zipfile
+
+
+def _log_operation(message: str) -> None:
+    """Append a single-line message to the cleansys log file."""
+    timestamp = datetime.now().isoformat(timespec="seconds")
+    line = f"{timestamp} | {message}\n"
+    log_path = Path("cleansys.log")
+    try:
+        with log_path.open("a", encoding="utf-8") as log_file:
+            log_file.write(line)
+    except OSError:
+        # Logging failures should not crash the main operation.
+        pass
 
 
 def delete_file(path: Path, dry_run: bool) -> bool:
@@ -9,40 +23,62 @@ def delete_file(path: Path, dry_run: bool) -> bool:
     Returns True on success, False on failure. In dry-run mode, the
     file is not removed; a preview line is printed instead.
     """
+    label = "DELETE"
     if dry_run:
-        print(f"[DRY RUN] Would delete: {path}")
+        msg = f"[DRY RUN] {label} {path}"
+        print(msg)
+        _log_operation(msg)
         return True
     if not path.exists():
-        print(f"[ERROR] Cannot delete (not found): {path}")
+        msg = f"[ERROR] {label} not found: {path}"
+        print(msg)
+        _log_operation(msg)
         return False
     try:
-        print(f"Deleting: {path}")
+        msg = f"{label} {path}"
+        print(msg)
+        _log_operation(msg)
         path.unlink()
         return True
     except PermissionError:
-        print(f"[ERROR] Permission denied when deleting: {path}")
+        msg = f"[ERROR] {label} permission denied: {path}"
+        print(msg)
+        _log_operation(msg)
     except OSError as exc:
-        print(f"[ERROR] Failed to delete {path}: {exc}")
+        msg = f"[ERROR] {label} failed for {path}: {exc}"
+        print(msg)
+        _log_operation(msg)
     return False
 
 
 def move_file(src: Path, dst: Path, dry_run: bool) -> bool:
     """Move a file from src to dst, honoring dry-run mode."""
+    label = "MOVE"
     if dry_run:
-        print(f"[DRY RUN] Would move: {src} -> {dst}")
+        msg = f"[DRY RUN] {label} {src} -> {dst}"
+        print(msg)
+        _log_operation(msg)
         return True
     if not src.exists():
-        print(f"[ERROR] Cannot move (source not found): {src}")
+        msg = f"[ERROR] {label} source not found: {src}"
+        print(msg)
+        _log_operation(msg)
         return False
     try:
-        print(f"Moving: {src} -> {dst}")
+        msg = f"{label} {src} -> {dst}"
+        print(msg)
+        _log_operation(msg)
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(src), str(dst))
         return True
     except PermissionError:
-        print(f"[ERROR] Permission denied when moving: {src} -> {dst}")
+        msg = f"[ERROR] {label} permission denied: {src} -> {dst}"
+        print(msg)
+        _log_operation(msg)
     except OSError as exc:
-        print(f"[ERROR] Failed to move {src} -> {dst}: {exc}")
+        msg = f"[ERROR] {label} failed for {src} -> {dst}: {exc}"
+        print(msg)
+        _log_operation(msg)
     return False
 
 
@@ -52,22 +88,33 @@ def archive_files(files: list[Path], archive_path: Path, dry_run: bool) -> bool:
     When dry_run is True, the archive is not created; a preview line
     is printed instead.
     """
+    label = "ARCHIVE"
     if dry_run:
-        print(f"[DRY RUN] Would archive {len(files)} file(s) into {archive_path}")
+        msg = f"[DRY RUN] {label} {len(files)} file(s) into {archive_path}"
+        print(msg)
+        _log_operation(msg)
         return True
     try:
         archive_path.parent.mkdir(parents=True, exist_ok=True)
-        print(f"Archiving {len(files)} file(s) into {archive_path}")
+        msg = f"{label} {len(files)} file(s) into {archive_path}"
+        print(msg)
+        _log_operation(msg)
         with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
             for fpath in files:
                 if not fpath.exists():
-                    print(f"[WARN] Skipping missing file for archive: {fpath}")
+                    warn_msg = f"[WARN] {label} skipping missing file: {fpath}"
+                    print(warn_msg)
+                    _log_operation(warn_msg)
                     continue
                 zf.write(fpath, arcname=fpath.name)
         return True
     except PermissionError:
-        print(f"[ERROR] Permission denied when creating archive: {archive_path}")
+        msg = f"[ERROR] {label} permission denied: {archive_path}"
+        print(msg)
+        _log_operation(msg)
     except OSError as exc:
-        print(f"[ERROR] Failed to create archive {archive_path}: {exc}")
+        msg = f"[ERROR] {label} failed for {archive_path}: {exc}"
+        print(msg)
+        _log_operation(msg)
     return False
 
