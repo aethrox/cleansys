@@ -52,3 +52,53 @@ def test_filter_files_by_file_type() -> None:
     assert "cache.TMP" in paths
     assert "note.txt" not in paths
 
+
+def test_filter_files_with_no_filters_returns_all() -> None:
+    now_ts = time()
+    files = [
+        FileInfo(path=Path("a.txt"), size=10, access_ts=now_ts),
+        FileInfo(path=Path("b.log"), size=20, access_ts=now_ts),
+    ]
+    filtered = filter_files(files, min_size=None, min_age_days=None, now_ts=now_ts, file_types=None)
+    assert filtered == files
+
+
+def test_filter_files_empty_input_returns_empty_list() -> None:
+    filtered = filter_files([], min_size=100, min_age_days=30)
+    assert filtered == []
+
+
+def test_filter_files_combined_size_and_age() -> None:
+    now_ts = time()
+    old_small = FileInfo(path=Path("old_small.txt"), size=50, access_ts=now_ts - 200 * 86400)
+    old_large = FileInfo(path=Path("old_large.txt"), size=5000, access_ts=now_ts - 200 * 86400)
+    new_large = FileInfo(path=Path("new_large.txt"), size=5000, access_ts=now_ts - 10 * 86400)
+
+    filtered = filter_files(
+        [old_small, old_large, new_large],
+        min_size=1000,
+        min_age_days=180,
+        now_ts=now_ts,
+    )
+
+    paths = {f.path.name for f in filtered}
+    assert paths == {"old_large.txt"}
+
+
+def test_filter_files_age_boundary_is_inclusive() -> None:
+    now_ts = time()
+    boundary_days = 30
+    boundary_file = FileInfo(
+        path=Path("boundary.txt"),
+        size=100,
+        access_ts=now_ts - boundary_days * 86400,
+    )
+
+    filtered = filter_files(
+        [boundary_file],
+        min_size=None,
+        min_age_days=boundary_days,
+        now_ts=now_ts,
+    )
+
+    assert filtered == [boundary_file]
