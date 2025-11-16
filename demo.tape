@@ -24,14 +24,14 @@ Type "clear"
 Enter
 Show
 
-Type "python main.py ~/Downloads --unused-days 180"
+Type "cleansys ~/Downloads --unused-days 180"
 Enter
 Sleep 4s
 Type "k"
 Enter
 Sleep 4s
 
-Type "python main.py ~/Desktop --min-size 50MB"
+Type "cleansys ~/Desktop --min-size 50MB"
 Enter
 Sleep 4s
 Type "d"
@@ -41,7 +41,7 @@ Type "yes"
 Enter
 Sleep 4s
 
-Type "python main.py ~/Documents --unused-days 365 --min-size 10MB"
+Type "cleansys ~/Documents --unused-days 365 --min-size 10MB"
 Enter
 Sleep 4s
 Type "a"
