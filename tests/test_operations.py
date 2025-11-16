@@ -1,4 +1,3 @@
-from pathlib import Path
 import zipfile
 
 from src.operations import archive_files, delete_file, move_file
