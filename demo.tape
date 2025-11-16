@@ -1,10 +1,10 @@
 Set Shell "bash"
 Set Width 1200
 Set Height 500
-Set FontSize 18
+Set FontSize 26
 Set Theme "Catppuccin Frappe"
-Set Padding 30
-Set Margin 50
+Set Padding 24
+Set Margin 32
 Set MarginFill "#1E1E2E"
 
 Hide
