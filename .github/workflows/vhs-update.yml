@@ -28,6 +28,11 @@ jobs:
       - name: Generate VHS tape from README
         run: python scripts/generate_demo_tape.py
 
+      - name: Install FFmpeg Dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
       - name: Run VHS
         uses: charmbracelet/vhs-action@v2
         with:
