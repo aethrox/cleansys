@@ -105,7 +105,7 @@ cleansys is intended to be **cross-platform** and works on:
 Path examples in this README use Unix-style (`~/Downloads`) and Windows-style (`C:\\Users\\you\\Downloads`) paths; adjust them to match your system.
 
 ## License
-MIT
+[MIT](LICENCE)
 
 ## Contributing
 Focus on simplicity. Reject features that add complexity without clear benefit.
