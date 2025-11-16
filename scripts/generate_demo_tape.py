@@ -108,15 +108,37 @@ def _build_tape(examples: List[str], cfg: Dict[str, Any]) -> str:
         "",
     ] + _build_setup_block()
     body: List[str] = []
-    for cmd in examples:
+    for idx, cmd in enumerate(examples):
         # Run the CLI command
         body.append(f'Type "{cmd}"')
         body.append("Enter")
         body.append(f"Sleep {sleep}")
-        # Choose an action for the single matching file so the command completes
-        body.append('Type "k"')
-        body.append("Enter")
-        body.append(f"Sleep {sleep}")
+
+        # Choose a different action per demo to showcase the flow.
+        if idx == 0:
+            # First example: Keep the file.
+            body.append('Type "k"')
+            body.append("Enter")
+            body.append(f"Sleep {sleep}")
+
+        elif idx == 1:
+            # Second example: Delete the file (with explicit confirmation).
+            body.append('Type "d"')
+            body.append("Enter")
+            body.append(f"Sleep {sleep}")
+            body.append('Type "yes"')
+            body.append("Enter")
+            body.append(f"Sleep {sleep}")
+
+        else:
+            # Third example: Archive the file to a demo zip path.
+            body.append('Type "a"')
+            body.append("Enter")
+            body.append(f"Sleep {sleep}")
+            body.append('Type "./demo-archive.zip"')
+            body.append("Enter")
+            body.append(f"Sleep {sleep}")
+
         body.append("")
     footer = [
         f"Sleep {sleep}",

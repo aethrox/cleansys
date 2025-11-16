@@ -2,14 +2,14 @@
   "output_filename": "cli-example.gif",
   "style_settings": {
     "theme": "Catppuccin Frappe",
-    "width": 900,
-    "height": 450,
-    "fontsize": 22,
+    "width": 1100,
+    "height": 520,
+    "fontsize": 20,
     "padding": 20,
     "margin": 24,
     "margin_fill": "#1E1E2E"
   },
-  "sleep_duration_ms": 2000
+  "sleep_duration_ms": 4000
 }
 
 
