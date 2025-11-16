@@ -5,7 +5,7 @@ import typer
 
 from src.scanner import scan_directory
 from src.analyzer import to_file_info, filter_files
-from src.interface import render_file_list, render_scan_header, render_scan_summary
+from src.interface import render_scan_header, run_interactive_review, render_scan_summary
 
 app = typer.Typer(help="cleansys - Clean System CLI tool")
 
@@ -23,7 +23,7 @@ def scan(
     paths = list(scan_directory(root, recursive=recursive))
     infos = to_file_info(paths)
     filtered = filter_files(infos, min_size=min_size, min_age_days=unused_days)
-    render_file_list(filtered)
+    run_interactive_review(filtered, dry_run=dry_run)
     render_scan_summary(len(filtered))
 
 
