@@ -62,6 +62,26 @@ def _ms_to_sleep(ms: int) -> str:
     return f"{seconds:g}s"
 
 
+def _build_setup_block() -> List[str]:
+    """Return VHS commands to prepare a realistic demo filesystem."""
+    commands = [
+        "mkdir -p ~/Downloads ~/Desktop ~/Documents",
+        "touch -d '200 days ago' ~/Downloads/old_installer.dmg",
+        "touch ~/Downloads/fresh_note.txt",
+        "truncate -s 100M ~/Desktop/huge_video.mov",
+        "truncate -s 1M ~/Desktop/small_config.json",
+        "touch -d '400 days ago' ~/Documents/archive.zip && truncate -s 20M ~/Documents/archive.zip",
+        "clear",
+    ]
+    block: List[str] = ["Hide"]
+    for cmd in commands:
+        block.append(f'Type "{cmd}"')
+        block.append("Enter")
+    block.append("Show")
+    block.append("")
+    return block
+
+
 def _build_tape(examples: List[str], cfg: Dict[str, Any]) -> str:
     """Build the VHS .tape content from the provided examples and config."""
     style = cfg.get("style_settings", {})
@@ -86,12 +106,7 @@ def _build_tape(examples: List[str], cfg: Dict[str, Any]) -> str:
         f"Set Margin {margin}",
         f'Set MarginFill "{margin_fill}"',
         "",
-        "Hide",
-        'Type "clear"',
-        "Enter",
-        "Show",
-        "",
-    ]
+    ] + _build_setup_block()
     body: List[str] = []
     for cmd in examples:
         body.extend(
