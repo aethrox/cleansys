@@ -45,8 +45,8 @@ def scan(
         min_age_days=unused_days,
         file_types=file_type or None,
     )
-    run_interactive_review(filtered, dry_run=dry_run)
-    render_scan_summary(len(filtered))
+    stats = run_interactive_review(filtered, dry_run=dry_run)
+    render_scan_summary(stats, dry_run=dry_run)
 
 
 def main() -> None:
